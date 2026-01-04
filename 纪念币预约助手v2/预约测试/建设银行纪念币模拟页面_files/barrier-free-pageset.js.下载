@@ -1,0 +1,286 @@
+function bfreePageSetting(tool, bfreeArea, bfreeTool) {
+    return {
+        "/cn/home/indexv3.html|/cn/creditcard/index.html": function () {
+            var cssText = '.header_box_2{position: static!important;}.header_box_2 .search_tow{margin: 24px!important;}.header_box_2 div.Quick_Link,.header_box_2 div.chengshixuanze{display: block!important;}'
+            tool.createStyle("bfree_css_header_box", "", cssText)
+        },
+        "/cn/creditcard/card_list.html": function () {
+            $("#card_keyword").attr("placeholder", "请输入产品名称")
+        },
+        "/cn/home/indexv3.html": function () {
+            tool.aria_label(".index_scroll .index_scroll_left a,.difference .button_left", "轮播切换控件 左")
+            tool.aria_label(".index_scroll .index_scroll_right a,.difference .button_right", "轮播切换控件 右")
+
+            $("#header_box .search_tow_a").text("搜索按钮")
+                .css("color", "transparent")
+                .next(".search_nav")
+                .keyup(function (e) {
+                    if (e.keyCode !== 27) return
+                    $("#header_box .search_nav .sd_sn").click()
+                })
+
+            tool.aria_label("#header_box .search_tow_a", {
+                onTAB: function (elem, genLabel) {
+                    return genLabel("搜索按钮", "按回车键展开")
+                }
+            })
+
+            $("#header_box .search_nav .sd_sn").text("关闭搜索按钮").css("color", "transparent")
+
+            tool.aria_label(".header .nav .nav_a", "innerText", {
+                onTAB: function (elem, genLabel) {
+                    return genLabel(elem.innerText, "按回车键展开", "按ESC键隐藏")
+                }
+            })
+
+            /**
+             * 首页快捷服务通道-修复右箭头用回车时重复触发的问题
+             */
+            tool.eventCenter.listen("event$after", function (result, event, args) {
+                var $target = $(args[0])
+
+                if ($target.is(".index_scroll_right")) {
+                    $target.find("a").attr("keyboard_fires", "")
+
+                    tool.eventCenter.remove("event$after", arguments.callee)
+                }
+            })
+
+            /**
+             * 首页快捷服务通道-按回车展开/收起
+             */
+            tool.eventCenter.listen("event$before", function (event, args) {
+                var $target = $(args[0]),
+                    eventType = args[1],
+                    selector = args[4]
+
+                if (eventType === "mouseenter" && selector === ".index_scroll_bottom" && $target.is(".index_scroll_li")) {
+                    setTimeout(function () {
+                        $(".index_scroll_bottom").attr("keyboard_fires", "click")
+                    })
+                    tool.eventCenter.remove("event$before", arguments.callee)
+                }
+            })
+
+            /**
+             * 首页公告获得焦点时，暂停轮播
+             */
+            $("#index_news_1").focusin(function () {
+                mySwiper1 && mySwiper1.stopAutoplay()
+            }).focusout(function () {
+                mySwiper1 && mySwiper1.startAutoplay()
+            })
+
+            $("#index_news_2").focusin(function () {
+                mySwiper2 && mySwiper2.stopAutoplay()
+            }).focusout(function () {
+                mySwiper2 && mySwiper2.startAutoplay()
+            })
+
+            $(".n-list").focusin(function () {
+                notPause = false
+            }).focusout(function () {
+                notPause = true
+            }).attr("tabindex", "-1")
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=NNYY00": function () {
+            //新开户预约
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=NYY010": function () {
+            //旧开户预约，新的对外后不要了
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=NYY500&UniEncodeStr": function () {
+            //取款预约
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=NYY030": function () {
+            //境外汇款
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=NE5E01": function () {
+            //信用卡办卡进度查询
+        },
+        "/cn/finance/product.html|/cn/fund/product/product_index.html": function () {
+            tool.aria_label($(".model_box .mo_lei").attr("tabindex", "0"), "模式切换控件")
+        },
+        "/": function () {
+            /**
+             * 广告图默认使用 block
+             */
+            tool.createStyle("bfree_css_adv", "", "a.AcqAdvClass{display:block;}")
+
+            tool.aria_label($(".search_nav .search_input").attr("title", "搜索关键词"), "搜索关键词,按 ESC 键退出")
+            tool.aria_label("img[src='http://www.ccb.com/cn/home/v3/images/sr_icon.png']", "善融商务")
+            $("input[placeholder]:not([aria-label])").each(function (i, target) {
+                var placeholder = $(target).attr("placeholder")
+                tool.aria_label(target, placeholder)
+            })
+
+            /**
+             * 大屏广告获得焦点时，暂停轮播，广告导航小图禁用焦点
+             */
+            if ($("#D1pic1").length) {
+                tool.setInterval(function () {
+                    var $adv = $("#D1pic1 .AcqAdvClass")
+
+                    if (!$adv.length) return
+
+                    $adv.focusin(function () {
+                        if (tool.isIE) {
+                            var ce = document.createEvent('CustomEvent')
+                            ce.initCustomEvent("mouseover", false, false, "")
+
+                            $("#fsD1")[0].dispatchEvent(ce)
+                        }
+                        else {
+                            $("#fsD1")[0].dispatchEvent(new CustomEvent("mouseover"))
+                        }
+                    }).focusout(function () {
+                        if (tool.isIE) {
+                            var ce = document.createEvent('CustomEvent')
+                            ce.initCustomEvent("mouseout", false, false, "")
+
+                            $("#fsD1")[0].dispatchEvent(ce)
+                        }
+                        else {
+                            $("#fsD1")[0].dispatchEvent(new CustomEvent("mouseout"))
+                        }
+                    })
+
+                    return true
+                }, 500, 5000)
+
+                tool.setInterval(function () {
+                    if (!$("#D1fBt a").length) return
+
+                    $("#D1fBt,#D1fBt a").attr("tabindex", "-1")
+
+                    return true
+                }, 500, 5000)
+            }
+
+            /**
+             * 广告图添加语音文字
+             */
+            tool.setInterval(function () {
+                var advImgs = $("[acqadid]").not("[title]").toArray()
+
+                advImgs.forEach(function (elem) {
+                    var acqadid = elem.getAttribute("acqadid"),
+                        title = acqadid.split("_")[2]
+
+                    tool.aria_label($(elem).attr("title", title), title)
+                    $(elem).has("*").length || $(elem).text(title).css("color", "transparent")
+                })
+            }, 500, 5000)
+
+            /**
+             * 为 radio 的 label 添加 for 属性
+             */
+            $("label:not([for]) :radio").toArray().forEach(function (radio, i) {
+                radio.id || (radio.id = radio.name + "_" + i)
+                $(radio).closest("label").attr("for", radio.id)
+            })
+
+            /**
+             * 添加 focus 事件的额外语音文字
+             */
+            tool.aria_label($(".vcc-index_tab_main>ul>li>a"), {
+                onTAB: function (elem, genLabel) {
+                    return genLabel(elem.innerText, "按回车键选中")
+                }
+            })
+
+            tool.aria_label($(".Business_box"), {
+                onTAB: function (elem, genLabel) {
+                    return genLabel("善融商务", "按回车键展开")
+                }
+            })
+
+            /**
+             * 隐藏侧边栏
+             */
+            $("#insert_cont.sidebar,body>.sidebar").hide()
+        },
+        "/chn/home/fund/product/index.shtml": function () {
+            tool.aria_label("#prod_search_txt", "基金代码/基金名称/简拼/关键字")
+            tool.aria_label(".search_btn", "搜索按钮")
+
+            setTimeout(function () {
+                $(".j_slideup").click()
+            }, 500)
+        },
+        "/chn/home/fund/product/syt/index.shtml": function () {
+            tool.aria_label(".search_btn", "搜索按钮")
+        },
+        "/cn/creditcard/apply/new/": function () {
+            tool.eventCenter.listen("event$before", function (event, args) {
+                var $target = $(args[0]),
+                    eventType = args[1],
+                    handler = args[2],
+                    selector = args[4]
+
+                if (
+                    $target.attr("id") == "j_my_scroll2"
+                    && typeof eventType === "string"
+                    && typeof selector === "string"
+                    && typeof handler === "function"
+                ) {
+                    var $con = $target.closest(".mes_row_right")
+                    $con.appendTo($con.parent())
+
+                    setTimeout(function () {
+                        var $elems = $target.find(selector)
+                        $elems.each(function (i, elem) {
+                            tool.supportFocusAndMarkEvent(elem, eventType)
+                        })
+                    }, 1000)
+
+                    tool.eventCenter.remove("event$before", arguments.callee)
+                }
+            })
+        },
+        "/cn/creditcard/creditFavarite.html": function () {
+            tool.aria_label($("#card_keyword").next(), "搜索按钮")
+        },
+        "/chn/home/fund/jjsy/index.shtml": function () {
+            tool.aria_label(".index_tab_nav>ul>li,.fund_sort>li", {
+                onTAB: function (elem, genLabel) {
+                    return genLabel(elem.innerText, "按回车键选中")
+                }
+            })
+
+            tool.setInterval(function () {
+                $(".all_table td div").not($(".all_table td div").has("div,a,span")).add($(".all_table td span")).attr("tabindex", "0")
+            }, 500, 5000)
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=NHYSM0": function () {
+            tool.aria_label("#custname", "用户名、手机号码、邮箱、昵称")
+            tool.aria_label("#custpwd", "登录密码")
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=D15011": function () {
+            tool.aria_label("#acct_no", "个人活期存折、储蓄卡、信用卡")
+            tool.aria_label("#lastphone", "该账号在我行预留的手机号后四位")
+        },
+        "/tran/WCCMainPlatV5?CCB_IBSVersion=V5&SERVLET_NAME=WCCMainPlatV5&TXCODE=NHY010": function () {
+            tool.aria_label(".tab4_a", {
+                onTAB: function (elem, genLabel) {
+                    return genLabel(elem.innerText, "按回车键选中")
+                }
+            })
+        },
+        "/cn/home/apply/card_apply.html": function () {
+            tool.aria_label($("#baseName").attr("placeholder", "中文姓名"), "中文姓名")
+            tool.aria_label($("#baseSpell").attr("placeholder", "姓名拼音"), "姓名拼音")
+            tool.aria_label($("#baseIDCardTypeNum").attr("placeholder", "证件号码"), "证件号码")
+        },
+        "TXCODE=520523|TXCODE=520525|TXCODE=520522": function () {
+            $(".cur_select,.focus_dis .hidespan").each(function () {
+                $(this).children().andSelf().attr("tabindex", "-1")
+
+                tool.aria_label(
+                    $(this).next().attr("tabindex", "0"),
+                    $(this).text()
+                )
+            })
+        }
+    }
+}

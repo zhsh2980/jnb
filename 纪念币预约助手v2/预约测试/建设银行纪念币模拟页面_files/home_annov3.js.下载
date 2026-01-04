@@ -1,0 +1,11 @@
+ 
+
+	jQuery(function(){
+		var length=jQuery(".showj_li").length;
+		if(4>length){
+			jQuery(".showj_tit:eq(1)").after('<li class="showj_li"><a href="http://group.ccb.com/cn/investor/announcement/20240228_1709108081.html" target="_blank">• 18.5亿美元于2029年到期之二级...</a></li><li class="showj_li"><a href="http://group.ccb.com/cn/investor/announcement/20240206_1707202367.html" target="_blank">• 关于境内2024年二级资本债券（...</a></li>')
+		}
+		
+	});
+  
+

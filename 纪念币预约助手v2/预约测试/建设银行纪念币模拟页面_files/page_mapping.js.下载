@@ -1,0 +1,389 @@
+!function () {
+    var pathname = location.pathname
+
+    redirect({
+        "公司机构": {
+            rate: 100 / 100,
+            "/cn/home/company_indexv3.html": "/chn/company/index.shtml",
+            "/cn/home/company/supermarket.html": "/chn/home/company/supermarket.shtml"
+        },
+        "小微企业": {
+            rate: 100 / 100,
+            "/cn/home/s_company_indexv3.html": "/chn/smallcompany/index.shtml"
+        },
+        "基金": {
+            rate: 100 / 100,
+            "/cn/fund/index.html": "/chn/home/fund/index.shtml",
+            "/cn/fund/product/include/detail_0.html": "/chn/home/fund/fwzn/lczn/wzgm/index.shtml",
+            "/cn/fund/product/product_index.html": "/chn/home/fund/product/index.shtml",
+            "/cn/fund/news/fundNews_list.html": "/chn/home/fund/jjzx/jjgg19/index.shtml",
+            "/cn/fund/news/news_index.html": "/chn/home/fund/jjzx/index.shtml"
+        },
+        "国债证券": {
+            rate: 100 / 100,
+            "/cn/home/company/zqcp/246978.html": "/chn/home/gz_zq/gzywjs/pzsgz/index.shtml",
+            "/cn/home/company/zqcp/246980.html": "/chn/home/gz_zq/gzywjs/jzsgz/index.shtml"
+        },
+        "学生惠": {
+            rate: 100 / 100,
+            "/cn/edu/index.html": "/chn/home/edu/index.shtml",
+            "/cn/edu/productGallery/2013061601365580255606.html": "/chn/2021-07/14/article_2021071412015884766.shtml"
+        },
+        "外汇": {
+            rate: 100 / 100,
+            "/cn/forex/indexv3.html": "/chn/forex/indexv3.shtml",
+            "/cn/forex/myself/20170419_169483788.html": "/chn/home/forex/ywjs/grwhmm/index.shtml",
+            "/cn/forex/myself/20170411_925295278.html": "/chn/home/forex/ywjs/zhwh/index.shtml",
+            "/cn/forex/myself/20170419_786487708.html": "/chn/home/forex/ywjs/grjsh20/index.shtml",
+            "/cn/forex/exchange-quotations.html": "/chn/forex/exchange-quotations.shtml",
+            "/cn/forex/myself/20170419_675225052.html": "/chn/home/forex/ywjs/whlccp/qdii/index.shtml"
+        },
+        "myCom": {
+            rate: 100 / 100,
+            href: true, //使用 location.href 跳转
+            "/cn/mycom/user_center.html": "/chn/mycom/user_center.shtml",
+            "/cn/mycom/xxxg/index_messagexg.html": "/chn/mycom/xxxg/index_messagexg.shtml",
+            "/cn/forex/news/news_list.html?newsSortId=0501": "/chn/forex/news/news_list.shtml?newsSortId=0501",
+            "/cn/mycom/user_app_to_management.html": "/chn/home/mycom/index/app_manage/index.shtml",
+            "/cn/forex/tools/index.html": "/chn/forex/exchange-calculation.shtml",
+            "/cn/mycom/query/customer_integration_mine.html": "/chn/mycom/query/customer_integration_mine.shtml",
+            "/cn/mycom/xxxg/index_headxg.html": "/chn/mycom/xxxg/index_headxg.shtml"
+        },
+        "国家政务服务": {
+            rate: 100 / 100,
+            "/cn/gjzwfw/ccb.html": "/chn/gjzwfw/ccb.shtml"
+        },
+        "个人电子银行": {
+            rate: 100 / 100,
+            "/cn/ebank/index.html": "/chn/ebank/index.shtml",
+            "/cn/ebank/personal/tdys/201306071370568393.html": "/chn/home/ebank/personal/intro/web/wsyxjs/index.shtml",
+            "/cn/ebank/personal/tdys/201306071370568804.html": "/chn/home/ebank/personal/intro/phone/sjyxjs/index.shtml",
+            "/cn/ebank/personal/tdys/201306071370568992.html": "/chn/home/ebank/personal/intro/info/dxjrjs/index.shtml",
+            "/cn/ebank/personal/tdys/201306071370569179.html": "/chn/home/ebank/personal/intro/telephone/dhyxjs/index.shtml",
+            "/cn/ebank/personal/ktzn/201306071370590364.html": "/chn/home/ebank/personal/intro/home/jjyxjs/index.shtml",
+            "/cn/ebank/personal/detail/201306161371323952.html": "/chn/home/ebank/personal/intro/self_service/zzyxjs/index.shtml",
+            "/cn/ebank/personal/tdys/201306081370664945.html": "/chn/home/ebank/personal/intro/epay/index.shtml",
+            "/cn/ebank/personal/tdys/201501251422121366.html": "/chn/home/ebank/personal/intro/wechat/wxyxjs/index.shtml",
+            "/cn/ebank/personal/detail/201501251422140463.html": "/chn/home/ebank/personal/intro/wechat/fwygn/index.shtml",
+            "/cn/ebank/personal/detail/201306071370606877.html": "/chn/2022-10/15/article_2022101516061772288.shtml",
+            "/cn/ebank/personal/detail/201306071370606256.html": "/chn/2022-10/10/article_2022101009543141006.shtml",
+            "/cn/ebank/personal/demoCenter/index.html": "/chn/ebank/personal/demoCenter/index.shtml",
+            "/cn/ebank/personal/question/answerquestion.html": "/chn/ebank/personal/question/answerquestion.shtml",
+            "/cn/ebank/personal/ebankintro/201306071370581744.html": "/chn/ebank/personal/leftnav/nav1.shtml",
+            "/cn/ebank/personal/downloadcenter/201306071370593615.html": "/chn/home/ebank/personal/help/load/index.shtml"
+        },
+        "企业电子银行": {
+            rate: 100 / 100,
+            href: true,
+            "/cn/ebank/homepage_corporate.html": "/chn/ebank/company/index.shtml",
+            "/cn/ebank/company/downloadcenter/201305301369881961.html": "/chn/home/ebank/company/wsyx/xzzq/index.shtml",
+            "/cn/ebank/company/functionhelp/201306031370236179.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=2",
+            "/cn/ebank/company/functionhelp/201306141371216470.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=1",
+            "/cn/ebank/company/functionhelp/201306141371216656.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=2",
+            "/cn/ebank/company/functionhelp/201306141371216807.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=3",
+            "/cn/ebank/company/functionhelp/201306141371216896.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=4",
+            "/cn/ebank/company/functionhelp/201306141371216985.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=5",
+            "/cn/ebank/company/functionhelp/201306141371217105.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=6",
+            "/cn/ebank/company/functionhelp/201306141371217176.html": "/chn/home/ebank/company/wsyx/fwygn/gjb/index.shtml?order=7",
+            "/cn/ebank/company/downloadcenter/201305301369881961.html": "/chn/home/ebank/company/wsyx/xzzq/index.shtml",
+            "/cn/ebank/company/ywdt/include/noticelist_1.html": "/chn/home/ebank/company/ywdt/index.shtml",
+            "/cn/ebank/company/detail/201306081370668859.html": "/chn/home/ebank/company/dhyx/dhyxjs/index.shtml",
+            "/cn/ebank/company/ktzn/201306081370689176.html": "/chn/home/ebank/company/wsyx/wsyxjs/ktzn/index.shtml"
+        },
+        "英文网站": {
+            rate: 100 / 100,
+            "/en/home/indexv3.html": "/eng/home/index.shtml",
+            "/en/v3/include/Disclaimer.html": "/eng/common/disclaimer/index.shtml",
+            "/en/public/v3/20160104_1451874597.html": "/eng/common/site_map/index.shtml",
+            "/en/v3/include/SiteMap.html": "/eng/common/site_map/index.shtml",
+            "/en/public/v3/20160104_1451875452.html": "/eng/common/useful_links/index.shtml",
+            "/en/v3/include/UsefulLinks.html": "/eng/common/useful_links/index.shtml"
+        },
+        "保险": {
+            rate: 100 / 100,
+            "/cn/insurance/indexv3.html": "/chn/insurance/indexv3.shtml",
+            "/cn/insurance/guide/chanpinsousuo.html": "/chn/insurance/guide/chanpinsousuo.shtml",
+            "/cn/insurance/my_insurance.html": "/chn/home/mycom/myinsurance/index.shtml",
+            "/cn/insurance/insurance_guide.html": "/chn/insurance/insurance_guide.shtml",
+            "/cn/insurance/consignment/list.html": "/chn/insurance/consignment/list.shtml"
+        },
+        "银行卡": {
+            rate: 100 / 100,
+            "/cn/home/apply/card_apply.html": "/chn/home/apply/card_apply.shtml",
+            "/cn/personal/debitcard/detailv3/544608.html": "/chn/home/yhk/index.shtml",
+            "/cn/personal/debitcard/detailv3/544644.html": "/chn/home/yhk/yhklb/lkjjk/lkt/lkt/index.shtml",
+            "/cn/personal/debitcard/detailv3/544617.html": "/chn/home/yhk/yhklb/lzf/index.shtml"
+        },
+        "存款": {
+            rate: 100 / 100,
+            href: true,
+            "/cn/personal/deposit/mini_set.html": "/chn/personal/deposit/mini_set.shtml",
+            "/cn/personal/deposit/rmbdeposits.html": "/chn/personal/deposit/list.shtml",
+            "/cn/personal/interestv3/rmbdeposit.html": "/chn/personal/interestv3/rmbdeposit.shtml",
+            "/cn/personal/deposit/noticedeposit.html": "/chn/personal/deposit/list.shtml?num=2",
+            "/cn/finance/products/deposit/product_list.html": "/chn/finance/products/deposit/product_list.shtml",
+            "/cn/personal/deposit/certificate.html": "/chn/personal/deposit/list.shtml?num=9"
+        },
+        "贷款": {
+            rate: 100 / 100,
+            "/cn/personal/credit/mini_set.html": "/chn/personal/credit/mini_set.shtml",
+            "/cn/personal/interestv3/rmbcredit.html": "/chn/personal/interestv3/rmbcredit.shtml",
+            "/cn/personal/credit/jyyw.html": "/chn/home/personal/grdk/jxkd/index.shtml",
+            "/cn/personal/credit/zfyw.html": "/chn/home/personal/grdk/grzfdkyw/index.shtml",
+            "/cn/personal/credit/xfyw.html": "/chn/home/personal/grdk/grxfldkyw/index.shtml",
+            "/cn/personal/credit/helploan.html": "/chn/home/personal/grdk/grjyldkyw/grzydk/index.shtml",
+            "/cn/personal/credit/trusteeship.html": "/chn/home/personal/grdk/grzfdktscp/fyafwjyzjtgyw/index.shtml"
+        },
+        "理财": {
+            rate: 0 / 100,
+            "/cn/finance/index.html": "/chn/home/finance/index.shtml",
+            "/cn/finance/product.html": "/chn/home/finance/product/index.shtml",
+            // "/cn/mycom/myfinance.html":"/chn/home/mycom/myfinance/index.shtml",
+            "/cn/finance/productnews/zxgg/zxgg_1.html": "/chn/home/finance/zxgg.shtml",
+            "/cn/finance/helpcenter/20151225_1451005660.html": "/chn/home/finance/service/lczn/sjdgm/index.shtml",
+            "/cn/finance/service/handbook.html": "/chn/home/finance/service/index.shtml",
+            "/cn/finance/selfservice/FinancialPlanning.html": "/chn/home/finance/service/zzfw/lcxgj/financial_planning/index.shtml"
+        },
+        "建行集团": {
+            rate: 100 / 100,
+            "/cn/group/index.html": "/chn/group/index.shtml"
+        },
+        "客户服务": {
+            rate: 100 / 100,
+            "/cn/home/customer_service/customer_service.html": "/chn/home/customer_service/customer_service.shtml"
+        },
+        "英文网站（投资者关系）": {
+            rate: 100 / 100,
+            "/en/investorv3/corporateoverview/overview.html": "/eng/investor_relations/corporate_profile/overview/index.shtml"
+        },
+        "中文网站（投资者关系）": {
+            rate: 100 / 100,
+            "/cn/investor/indexv3.html": "/chn/investor/indexv3.shtml"
+        },
+        "英文网站（今日建行）": {
+            rate: 100 / 100,
+            "/en/newccbtoday/v3/whatsnew/whatsnew.html": "/eng/ccb_today/news/index.shtml"
+        },
+        "中文网站（今日建行）": {
+            rate: 100 / 100,
+            "/cn/ccbtoday/indexv3.html": "/chn/ccbtoday/indexv3.shtml"
+        },
+        "私人银行首页": {
+            rate: 100 / 100,
+            "/cn/home/privatebank_index.html": "/chn/privatebank/index.shtml"
+        },
+        "建行报客户版": {
+            rate: 0 / 100,
+            "/newsinfo/jhb/html/2024-01/03/node_1.htm": "/chn/ccbtoday/ccbpaper/paper_1.shtml"
+        },
+        "英文网站": {
+            rate: 100 / 100,
+            "/en/home/indexv3.html": "/eng/home/index.shtml"
+        },
+        "特约商户": {
+            rate: 100 / 100,
+            "/cn/home/tysh/tysh_index.html": "/chn/home/tysh/index.shtml"
+        },
+        "视频专区": {
+            rate: 100 / 100,
+            "/cn/livevideo/index.html": "/chn/livevideo/index.shtml",
+            "/cn/livevideo/mobilev3/indexv3m.html": "/chn/livevideo/mobilev3/indexv3m.shtml"
+        },
+        "诚聘英才": {
+            rate: 0 / 100,
+            "/cn/job/index.html": "/chn/job/index.html"
+        },
+        "东京分行": {
+            rate: 0 / 100,
+            "/tokyo/cn/indexv3.html": "/lng/tokyo/cn/index.shtml",
+            "/tokyo/en/indexv3.html": "/lng/tokyo/en/index.shtml",
+            "/tokyo/lng/indexv3.html": "/lng/tokyo/lng/index.shtml"
+        },
+        "首尔分行": {
+            rate: 0 / 100,
+            "/seoul/cn/index.html": "/lng/seoul/old/cn/index.shtml",
+            "/seoul/en/index.html": "/lng/seoul/old/en/index.shtml"
+        },
+        "建行新西兰": {
+            rate: 0 / 100,
+            "/newzealand/cn/indexv3.html": "/lng/newzealand/cn/index.shtml",
+            "/newzealand/en/indexv3.html": "/lng/newzealand/en/index.shtml"
+        },
+        "建行纳闽分行": {
+            rate: 0 / 100,
+            "/labuan/cn/indexv3.html": "/lng/labuan/cn/index.shtml",
+            "/labuan/en/indexv3.html": "/lng/labuan/en/index.shtml"
+        },
+        "苏黎世分行": {
+            rate: 0 / 100,
+            "/zurich/cn/indexv3.html": "/lng/zurich/cn/index.shtml",
+            "/zurich/en/indexv3.html": "/lng/zurich/en/index.shtml",
+            "/zurich/lng/indexv3.html": "/lng/zurich/lng/index.shtml"
+        },
+        "胡志明分行": {
+            rate: 0 / 100,
+            "/hochiminh/cn/index.html": "/lng/hochiminh/old/cn/index.shtml",
+            "/hochiminh/en/index.html": "/lng/hochiminh/old/en/index.shtml"
+        },
+        "建行马来西亚": {
+            rate: 0 / 100,
+            "/malaysia/cn/indexv3.html": "/lng/malaysia/cn/index.shtml",
+            "/malaysia/en/indexv3.html": "/lng/malaysia/en/index.shtml"
+        },
+        "贵金属": {
+            rate: 100 / 100,
+            "/chn/gold3v/index.shtml": "/chn/home/gold_new/gjssy/index.shtml"
+        }
+    })
+
+
+
+
+    function redirect(modules) {
+        var rnd = Math.random()
+
+        for (var name in modules) {
+            var moduleCfg = modules[name], // { rate:命中概率, custom:命中后调用该函数, href:命中后使用 location.href 跳转，默认使用 location.pathname }
+                redirectPath = moduleCfg && moduleCfg[pathname]
+
+            if (!redirectPath) continue;
+
+            var shouldRedirect = rnd < moduleCfg.rate,
+                custom = moduleCfg.custom, //使用自定义函数处理
+                useHref = moduleCfg.href //使用 location.href 跳转
+
+            if (!shouldRedirect) return;
+
+            if (typeof custom === "function") {
+                try {
+                    custom(pathname, redirectPath)
+                } catch (err) {
+                    return console.error(err)
+                }
+            } else if (useHref) {
+                location.href = redirectPath
+            } else {
+                location.pathname = redirectPath
+            }
+
+            return
+        }
+    }
+    
+    
+    
+    try{
+
+	    var host = location.host
+	    if (host.match(/sinfo\d?\.ccb\.com/)) return
+	    if (host.match(/jinianbi\d?\.ccb\.com/)) return
+			
+			//"/cn/home/indexv3.html"
+	    var pathname = location.pathname,
+	        whiteHttpsPaths = [
+	            "/cn/home/integration/integration_use_nolog.html",
+	            "/cn/home/integration/index_integration_description.html",
+	        ],
+	        
+	        	        whiteHttpsPaths2 = [
+	            "/frankfurt/",
+	            "/zurich/",
+				"/malaysia/",
+				"/labuan/"
+	        ]
+
+	    var useHttps = true;
+		var useHttps2 = false
+	    /*
+	    var useHttps2 = false
+
+	    for (var i = 0; i < whiteHttpsPaths.length; i++) {
+	        var path = whiteHttpsPaths[i]
+	        if (~pathname.indexOf(path)) {
+	            useHttps = true
+	            break
+	        }
+	    }
+	    
+	   for (var i = 0; i < whiteHttpsPaths2.length; i++) {
+	        var path = whiteHttpsPaths2[i]
+	        if (~pathname.indexOf(path)) {
+	            useHttps2 = true
+	            break
+	        }
+	    }
+*/
+	   for (var i = 0; i < whiteHttpsPaths2.length; i++) {
+	        var path = whiteHttpsPaths2[i]
+	        if (~pathname.indexOf(path)) {
+	            useHttps2 = true
+	            break
+	        }
+	    }
+       if(useHttps){
+				if(location.protocol == "http:"){
+						/*
+						if( getCookie('httpWhite') == 1){
+							location.protocol = "https:";
+						}
+						*/
+						var pencent = randomhttps(1,100);
+						if(pencent <= 50){
+							location.protocol = "https:";
+						}
+						
+				}
+			}else{
+				if(location.protocol == "https:"){
+						//location.protocol = "http:";
+				}
+			
+      }
+	  if(useHttps2){
+				if(location.protocol == "http:"){
+						
+							location.protocol = "https:";
+						
+				}
+			}
+	  
+/*      
+       if(useHttps2){
+				if(location.protocol == "http:" && (location.href.indexOf("fjt.ccb.com")==-1)){
+				
+						//if( getCookie('httpWhite') == 1){
+							location.protocol = "https:";
+						//}
+				}
+			}else{
+				if(location.protocol == "https:"){
+						//location.protocol = "http:";
+				}
+      }      
+*/ 
+
+	    //location.protocol = useHttps ? "https:" : "http:"
+            
+	}catch(e){
+
+	}           
+		function randomhttps(min, max) {
+		min = min || 0
+		return (Math.random() * (max - min + 1) | 0) + min
+	}
+	
+	
+	
+	           function getCookie(Name){
+                var search = Name + "="
+                if(document.cookie.length > 0){
+                    offset = document.cookie.indexOf(search)
+                    if(offset != -1){
+                        offset += search.length
+                        end = document.cookie.indexOf(";", offset)
+                        if(end == -1) end = document.cookie.length
+                        return unescape(document.cookie.substring(offset, end))
+                    }else return ""
+                }
+            }
+}()

@@ -1,0 +1,10 @@
+
+
+	jQuery(function(){
+		var length=jQuery(".showj_li").length;
+		if(4>length){
+			jQuery(".showj_tit:eq(0)").after('<li class="showj_li"><a href="http://group.ccb.com/cn/ccbtoday/newsv3/20240205_1707102852.html" target="_blank">• 祥龙贺岁！中国建设银行龙年贺...</a></li><li class="showj_li"><a href="http://group.ccb.com/cn/ccbtoday/newsv3/20240205_1707102637.html" target="_blank">• 深入基层、走进农家，建行有支...</a></li>')
+		};
+	});
+ 
+
