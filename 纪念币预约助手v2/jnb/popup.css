@@ -355,4 +355,36 @@ input:checked + .slider:before {
 .bank-links-content a:hover {
   background: #f1f3f4;
   color: #1a73e8;
+}
+
+/* 刷新间隔输入框样式 */
+.refresh-interval-container {
+  background: white;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.interval-label {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+}
+
+#refreshInterval {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+#refreshInterval:focus {
+  border-color: #1a73e8;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26,115,232,0.1);
 } 

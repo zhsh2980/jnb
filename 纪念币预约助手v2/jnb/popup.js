@@ -32,7 +32,52 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('autoFill').addEventListener('change', (e) => {
     chrome.storage.local.set({ autoFill: e.target.checked });
   });
-  
+
+  document.getElementById('autoRefresh').addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    chrome.storage.local.set({ autoRefresh: checked });
+
+    // 显示或隐藏刷新间隔输入框
+    const intervalContainer = document.getElementById('refreshIntervalContainer');
+    intervalContainer.style.display = checked ? 'flex' : 'none';
+
+    // 通知所有标签页更新刷新状态
+    chrome.tabs.query({}, (tabs) => {
+      tabs.forEach(tab => {
+        chrome.tabs.sendMessage(tab.id, {
+          action: 'updateRefreshSettings',
+          autoRefresh: checked
+        }).catch(() => {});
+      });
+    });
+  });
+
+  // 刷新间隔输入框事件
+  document.getElementById('refreshInterval').addEventListener('change', (e) => {
+    let interval = parseInt(e.target.value);
+
+    // 验证输入值
+    if (isNaN(interval) || interval < 1) {
+      interval = 30;
+      e.target.value = 30;
+    } else if (interval > 3600) {
+      interval = 3600;
+      e.target.value = 3600;
+    }
+
+    chrome.storage.local.set({ refreshInterval: interval });
+
+    // 通知所有标签页更新刷新间隔
+    chrome.tabs.query({}, (tabs) => {
+      tabs.forEach(tab => {
+        chrome.tabs.sendMessage(tab.id, {
+          action: 'updateRefreshSettings',
+          refreshInterval: interval
+        }).catch(() => {});
+      });
+    });
+  });
+
   // 添加消息监听
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'refreshList') {
@@ -186,9 +231,19 @@ function showNotification(message, type = 'info') {
 
 // 其他辅助函数...
 function loadSettings() {
-  chrome.storage.local.get(['autoVerifyCode', 'autoFill'], (result) => {
+  chrome.storage.local.get(['autoVerifyCode', 'autoFill', 'autoRefresh', 'refreshInterval'], (result) => {
     document.getElementById('autoVerifyCode').checked = result.autoVerifyCode || false;
     document.getElementById('autoFill').checked = result.autoFill || false;
+
+    const autoRefresh = result.autoRefresh || false;
+    const refreshInterval = result.refreshInterval || 30;
+
+    document.getElementById('autoRefresh').checked = autoRefresh;
+    document.getElementById('refreshInterval').value = refreshInterval;
+
+    // 根据开关状态显示或隐藏刷新间隔输入框
+    const intervalContainer = document.getElementById('refreshIntervalContainer');
+    intervalContainer.style.display = autoRefresh ? 'flex' : 'none';
   });
 }
 

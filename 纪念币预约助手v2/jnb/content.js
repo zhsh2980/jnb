@@ -1,6 +1,76 @@
+// 定时刷新相关变量
+let refreshTimer = null;
+
+// 启动定时刷新
+function startAutoRefresh(interval) {
+  stopAutoRefresh(); // 先停止之前的定时器
+
+  console.log(`启动定时刷新，间隔: ${interval}秒`);
+
+  refreshTimer = setInterval(() => {
+    console.log('执行定时刷新...');
+    location.reload();
+  }, interval * 1000);
+}
+
+// 停止定时刷新
+function stopAutoRefresh() {
+  if (refreshTimer) {
+    console.log('停止定时刷新');
+    clearInterval(refreshTimer);
+    refreshTimer = null;
+  }
+}
+
+// 页面加载时初始化定时刷新
+chrome.storage.local.get(['autoRefresh', 'refreshInterval'], (result) => {
+  if (result.autoRefresh) {
+    const interval = result.refreshInterval || 30;
+    startAutoRefresh(interval);
+  }
+});
+
+// 监听 storage 变化
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'local') {
+    if (changes.autoRefresh || changes.refreshInterval) {
+      chrome.storage.local.get(['autoRefresh', 'refreshInterval'], (result) => {
+        if (result.autoRefresh) {
+          const interval = result.refreshInterval || 30;
+          startAutoRefresh(interval);
+        } else {
+          stopAutoRefresh();
+        }
+      });
+    }
+  }
+});
+
 // 监听来自 popup 的消息
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('收到消息:', request);
+
+  // 处理更新刷新设置的消息
+  if (request.action === 'updateRefreshSettings') {
+    if (request.autoRefresh !== undefined) {
+      if (request.autoRefresh) {
+        chrome.storage.local.get('refreshInterval', (result) => {
+          const interval = result.refreshInterval || 30;
+          startAutoRefresh(interval);
+        });
+      } else {
+        stopAutoRefresh();
+      }
+    } else if (request.refreshInterval !== undefined) {
+      chrome.storage.local.get('autoRefresh', (result) => {
+        if (result.autoRefresh) {
+          startAutoRefresh(request.refreshInterval);
+        }
+      });
+    }
+    sendResponse({ success: true });
+    return true;
+  }
 
   if (request.action === 'fillPersonalInfo') {
     const data = request.data;
