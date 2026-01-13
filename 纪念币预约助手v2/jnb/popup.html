@@ -52,17 +52,46 @@
           <span class="switch-label">自动填充</span>
         </div>
 
-        <div class="switch-container">
-          <label class="switch">
-            <input type="checkbox" id="autoRefresh">
-            <span class="slider"></span>
-          </label>
-          <span class="switch-label">定时刷新</span>
-        </div>
+        <div class="refresh-section">
+          <div class="refresh-header">定时刷新</div>
 
-        <div class="refresh-interval-container" id="refreshIntervalContainer" style="display: none;">
-          <label class="interval-label">刷新间隔（秒）：</label>
-          <input type="number" id="refreshInterval" min="1" max="3600" value="30" placeholder="30">
+          <div class="refresh-input-group">
+            <label class="refresh-label">刷新日期：</label>
+            <input type="date" id="refreshDate" class="date-input">
+          </div>
+
+          <div class="refresh-input-group">
+            <label class="refresh-label">刷新时间：</label>
+            <div class="time-inputs">
+              <input type="number" id="refreshHour" class="time-input" min="0" max="23" placeholder="时">
+              <span class="time-separator">:</span>
+              <input type="number" id="refreshMinute" class="time-input" min="0" max="59" placeholder="分">
+              <span class="time-separator">:</span>
+              <input type="number" id="refreshSecond" class="time-input" min="0" max="59" placeholder="秒">
+              <span class="time-separator">.</span>
+              <input type="number" id="refreshMillisecond" class="time-input-ms" min="0" max="999" placeholder="毫秒">
+            </div>
+          </div>
+
+          <div class="refresh-controls">
+            <button id="startRefreshBtn" class="refresh-btn refresh-btn-start">开始</button>
+            <button id="stopRefreshBtn" class="refresh-btn refresh-btn-stop" style="display: none;">停止</button>
+          </div>
+
+          <div class="refresh-status">
+            <div class="status-row">
+              <span class="status-label">状态：</span>
+              <span id="refreshStatus" class="status-value">空闲</span>
+            </div>
+            <div class="status-row">
+              <span class="status-label">时差：</span>
+              <span id="timeDiff" class="status-value">--</span>
+            </div>
+            <div class="status-row countdown-row">
+              <span class="status-label">倒计时：</span>
+              <span id="countdown" class="countdown-value">--:--:--.---</span>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -1,77 +1,207 @@
-// 定时刷新相关变量
-let refreshTimer = null;
+// ========== 定时刷新功能 ==========
 
-// 启动定时刷新
-function startAutoRefresh(interval) {
-  stopAutoRefresh(); // 先停止之前的定时器
+// 全局变量
+let rafId = null;  // requestAnimationFrame ID
+let timeDiff = 0;  // 时差（毫秒）
+let targetTime = null;  // 目标时间戳
+let isRunning = false;  // 是否正在倒计时
 
-  console.log(`启动定时刷新，间隔: ${interval}秒`);
+// 淘宝时间API
+const TAOBAO_TIME_API = 'http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp';
 
-  refreshTimer = setInterval(() => {
-    console.log('执行定时刷新...');
-    location.reload();
-  }, interval * 1000);
-}
+// 获取淘宝服务器时间
+async function fetchTaobaoTime() {
+  try {
+    const localStart = Date.now();
 
-// 停止定时刷新
-function stopAutoRefresh() {
-  if (refreshTimer) {
-    console.log('停止定时刷新');
-    clearInterval(refreshTimer);
-    refreshTimer = null;
+    const response = await fetch(TAOBAO_TIME_API, {
+      method: 'GET',
+      mode: 'cors'
+    });
+
+    const localEnd = Date.now();
+
+    if (!response.ok) {
+      throw new Error('API request failed');
+    }
+
+    const data = await response.json();
+    const serverTime = parseInt(data.data.t);
+
+    if (isNaN(serverTime)) {
+      throw new Error('Invalid server time');
+    }
+
+    // 计算网络延迟
+    const rtt = localEnd - localStart;
+    const delay = Math.floor(rtt / 2);
+
+    // 补偿后的真实服务器时间
+    const realServerTime = serverTime + delay;
+
+    // 计算时差
+    const calculatedTimeDiff = realServerTime - Date.now();
+
+    console.log('[定时刷新] 淘宝时间同步成功:', {
+      serverTime: new Date(serverTime).toISOString(),
+      rtt: rtt + 'ms',
+      delay: delay + 'ms',
+      timeDiff: calculatedTimeDiff + 'ms'
+    });
+
+    return {
+      success: true,
+      timeDiff: calculatedTimeDiff,
+      rtt: rtt
+    };
+  } catch (error) {
+    console.error('[定时刷新] 获取淘宝时间失败:', error);
+    return {
+      success: false,
+      timeDiff: 0  // 降级使用本地时间
+    };
   }
 }
 
-// 页面加载时初始化定时刷新
-chrome.storage.local.get(['autoRefresh', 'refreshInterval'], (result) => {
-  if (result.autoRefresh) {
-    const interval = result.refreshInterval || 30;
-    startAutoRefresh(interval);
-  }
-});
+// 开始倒计时
+function startCountdown(targetTimestamp, calculatedTimeDiff, syncSuccess) {
+  targetTime = targetTimestamp;
+  timeDiff = calculatedTimeDiff;
+  isRunning = true;
 
-// 监听 storage 变化
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === 'local') {
-    if (changes.autoRefresh || changes.refreshInterval) {
-      chrome.storage.local.get(['autoRefresh', 'refreshInterval'], (result) => {
-        if (result.autoRefresh) {
-          const interval = result.refreshInterval || 30;
-          startAutoRefresh(interval);
-        } else {
-          stopAutoRefresh();
-        }
+  console.log('[定时刷新] 开始倒计时:', {
+    targetTime: new Date(targetTime).toISOString(),
+    timeDiff: timeDiff + 'ms',
+    syncSuccess: syncSuccess
+  });
+
+  // 通知popup同步完成
+  sendMessageToPopup({
+    status: 'synced',
+    timeDiff: timeDiff,
+    success: syncSuccess,
+    isRunning: true
+  });
+
+  // 开始RAF循环
+  function tick() {
+    if (!isRunning) return;
+
+    // 当前服务器时间 = 本地时间 + 时差
+    const currentServerTime = Date.now() + timeDiff;
+
+    // 剩余时间
+    const remaining = targetTime - currentServerTime;
+
+    if (remaining <= 0) {
+      // 时间到了，执行刷新
+      console.log('[定时刷新] 时间到，执行刷新！');
+      stopCountdown();
+
+      // 通知popup完成
+      sendMessageToPopup({
+        status: 'completed',
+        isRunning: false
       });
+
+      // 刷新页面
+      location.reload();
+    } else {
+      // 更新UI显示
+      sendMessageToPopup({
+        status: 'countdown',
+        remaining: remaining,
+        isRunning: true
+      });
+
+      // 下一帧继续
+      rafId = requestAnimationFrame(tick);
     }
   }
-});
+
+  // 开始倒计时
+  rafId = requestAnimationFrame(tick);
+}
+
+// 停止倒计时
+function stopCountdown() {
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+  isRunning = false;
+  targetTime = null;
+  timeDiff = 0;
+
+  console.log('[定时刷新] 倒计时已停止');
+}
+
+// 发送消息到popup
+function sendMessageToPopup(data) {
+  chrome.runtime.sendMessage({
+    action: 'updateRefreshStatus',
+    data: data
+  }).catch(() => {
+    // popup可能已关闭，忽略错误
+  });
+}
 
 // 监听来自 popup 的消息
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('收到消息:', request);
 
-  // 处理更新刷新设置的消息
-  if (request.action === 'updateRefreshSettings') {
-    if (request.autoRefresh !== undefined) {
-      if (request.autoRefresh) {
-        chrome.storage.local.get('refreshInterval', (result) => {
-          const interval = result.refreshInterval || 30;
-          startAutoRefresh(interval);
-        });
-      } else {
-        stopAutoRefresh();
-      }
-    } else if (request.refreshInterval !== undefined) {
-      chrome.storage.local.get('autoRefresh', (result) => {
-        if (result.autoRefresh) {
-          startAutoRefresh(request.refreshInterval);
-        }
-      });
+  // 处理定时刷新相关消息
+  if (request.action === 'startScheduledRefresh') {
+    // 停止之前的倒计时（如果有）
+    if (isRunning) {
+      stopCountdown();
     }
+
+    // 设置isRunning标志，防止同步期间被停止
+    isRunning = true;
+
+    // 通知popup开始同步
+    sendMessageToPopup({
+      status: 'syncing',
+      isRunning: true
+    });
+
+    // 获取淘宝服务器时间
+    fetchTaobaoTime().then(result => {
+      if (!isRunning) {
+        // 用户可能在同步期间点击了停止
+        sendResponse({ success: false, message: 'Cancelled' });
+        return;
+      }
+
+      // 开始倒计时
+      startCountdown(request.targetTime, result.timeDiff, result.success);
+
+      sendResponse({ success: true });
+    }).catch(error => {
+      console.error('[定时刷新] 启动失败:', error);
+      isRunning = false;
+      sendResponse({ success: false, message: error.message });
+    });
+
+    // 返回true表示异步响应
+    return true;
+  } else if (request.action === 'stopScheduledRefresh') {
+    stopCountdown();
     sendResponse({ success: true });
+    return true;
+  } else if (request.action === 'getRefreshStatus') {
+    // 返回当前状态
+    sendResponse({
+      isRunning: isRunning,
+      status: isRunning ? 'countdown' : 'idle',
+      timeDiff: timeDiff,
+      remaining: isRunning && targetTime ? targetTime - Date.now() - timeDiff : 0
+    });
     return true;
   }
 
+  // 处理填充个人信息的消息
   if (request.action === 'fillPersonalInfo') {
     const data = request.data;
     console.log('填充数据:', data);
