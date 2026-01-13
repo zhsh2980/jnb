@@ -357,25 +357,37 @@ input:checked + .slider:before {
   color: #1a73e8;
 }
 
-/* 刷新间隔输入框样式 */
-.refresh-interval-container {
+/* 定时刷新区域样式 */
+.refresh-section {
   background: white;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 12px;
+  border-radius: 8px;
   margin: 8px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.interval-label {
-  font-size: 12px;
+.refresh-header {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a73e8;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.refresh-input-group {
+  margin-bottom: 10px;
+}
+
+.refresh-label {
+  display: block;
+  font-size: 11px;
   color: #666;
-  white-space: nowrap;
+  margin-bottom: 4px;
 }
 
-#refreshInterval {
-  flex: 1;
+.date-input {
+  width: 100%;
   padding: 6px 8px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -383,8 +395,142 @@ input:checked + .slider:before {
   transition: all 0.2s ease;
 }
 
-#refreshInterval:focus {
+.date-input:focus {
   border-color: #1a73e8;
   outline: none;
   box-shadow: 0 0 0 2px rgba(26,115,232,0.1);
+}
+
+.time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.time-input {
+  width: 40px;
+  padding: 6px 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.time-input-ms {
+  width: 50px;
+  padding: 6px 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.time-input:focus,
+.time-input-ms:focus {
+  border-color: #1a73e8;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26,115,232,0.1);
+}
+
+.time-separator {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.refresh-controls {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.refresh-btn {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.refresh-btn-start {
+  background: linear-gradient(135deg, #34a853, #2d8745);
+  color: white;
+}
+
+.refresh-btn-start:hover {
+  background: linear-gradient(135deg, #2d8745, #26753a);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(52,168,83,0.3);
+}
+
+.refresh-btn-stop {
+  background: linear-gradient(135deg, #ea4335, #d33426);
+  color: white;
+}
+
+.refresh-btn-stop:hover {
+  background: linear-gradient(135deg, #d33426, #c02d1f);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(234,67,53,0.3);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.refresh-status {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #e8eaed;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.status-label {
+  font-size: 11px;
+  color: #666;
+}
+
+.status-value {
+  font-size: 11px;
+  color: #444;
+  font-weight: 500;
+}
+
+.countdown-row {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e8eaed;
+}
+
+.countdown-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a73e8;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+
+/* 输入框数字去除箭头 */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 } 
